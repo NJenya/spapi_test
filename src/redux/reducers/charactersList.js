@@ -8,6 +8,8 @@ const initialState = {
 	isFetching: false,
 }
 
-const charactersListReducer = (state = initialState, action) => {}
+const charactersListReducer = (state = initialState, action) => {
+	return state
+}
 
 export default charactersListReducer

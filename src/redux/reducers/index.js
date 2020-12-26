@@ -1,10 +1,10 @@
 import charactersListReducer from './charactersList'
-import updateCharactersPage from './charactersPage'
+import charactersPageReducer from './charactersPage'
 
 const reduser = (state, action) => {
 	return {
-		bookList: charactersListReducer(state, action),
-		shopingCart: charactersPageReducer(state, action),
+		peoplesList: charactersListReducer(state, action),
+		peoplePage: charactersPageReducer(state, action),
 	}
 }
 
