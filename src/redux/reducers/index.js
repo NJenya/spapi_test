@@ -3,7 +3,7 @@ import charactersPageReducer from './charactersPage'
 
 const reduser = (state, action) => {
 	return {
-		peoplesList: charactersListReducer(state, action),
+		peopleList: charactersListReducer(state, action),
 		peoplePage: charactersPageReducer(state, action),
 	}
 }

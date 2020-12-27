@@ -1,25 +1,46 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import { starWarsAPI } from 'api/api'
+import { getUsers } from 'redux/reducers/charactersList'
+import Loader from 'components/Loader'
 
-const CharactersList = ({ peoples }) => {
-	// useEffect(async () => {
-	// 	const response = await starWarsAPI.getPeople()
+const CharactersList = ({ people, isFetching, getUsers, totalCount }) => {
+	useEffect(() => {
+		getUsers()
+	}, [])
 
-	// 	console.log('response', response)
-	// }, [])
-	console.log('peoples', peoples)
+	if (isFetching) {
+		return <Loader />
+	}
 
-	return <div>CharactersList</div>
+	const personsList = people.map((persone) => {
+		return (
+			<div key={persone.id}>
+				<Link to="/peoplepage">{persone.name}</Link>
+			</div>
+		)
+	})
+
+	const countPage = Math.ceil(totalCount / 10)
+	const pages = []
+	for (let i = 1; i <= countPage; i++) {
+		pages.push(i)
+	}
+	console.log('pages', pages)
+
+	// const paginationNumbers =
+
+	return <div>{personsList}</div>
 }
 
 const mapStateToProps = (state) => {
 	return {
-		peoples: state.peoplesList.peoples,
-		currentPage: state.peoplesList.currentPage,
-		isFetching: state.peoplesList.isFetching,
+		people: state.peopleList.people,
+		currentPage: state.peopleList.currentPage,
+		totalCount: state.peopleList.totalCount,
+		isFetching: state.peopleList.isFetching,
 	}
 }
 
-export default connect(mapStateToProps, {})(CharactersList)
+export default connect(mapStateToProps, { getUsers })(CharactersList)
