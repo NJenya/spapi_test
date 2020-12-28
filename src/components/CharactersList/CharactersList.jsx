@@ -2,23 +2,36 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { getUsers } from 'redux/reducers/charactersList'
+import { getUsers, setCurrentPage } from 'redux/reducers/charactersReducer'
 import Loader from 'components/Loader'
 
-const CharactersList = ({ people, isFetching, getUsers, totalCount }) => {
+const CharactersList = ({
+	people,
+	isFetching,
+	currentPage,
+	getUsers,
+	totalCount,
+	setCurrentPage,
+}) => {
 	useEffect(() => {
-		getUsers()
-	}, [])
+		getUsers(currentPage)
+	}, [currentPage])
 
 	if (isFetching) {
 		return <Loader />
 	}
 
 	const personsList = people.map((persone) => {
+		const extractId = (item) => {
+			const idRegExp = /\/([0-9]*)\/$/
+			return item.url.match(idRegExp)[1]
+		}
+		const id = extractId(persone)
+		console.log(id)
 		return (
-			<div key={persone.id}>
+			<li key={id}>
 				<Link to="/peoplepage">{persone.name}</Link>
-			</div>
+			</li>
 		)
 	})
 
@@ -27,11 +40,19 @@ const CharactersList = ({ people, isFetching, getUsers, totalCount }) => {
 	for (let i = 1; i <= countPage; i++) {
 		pages.push(i)
 	}
-	console.log('pages', pages)
 
-	// const paginationNumbers =
+	const paginationNumbers = pages.map((numberPage) => {
+		return <span onClick={() => setCurrentPage(numberPage)}>{numberPage}</span>
+	})
 
-	return <div>{personsList}</div>
+	return (
+		<>
+			<ul>
+				<div>{personsList}</div>
+			</ul>
+			<div>{paginationNumbers}</div>
+		</>
+	)
 }
 
 const mapStateToProps = (state) => {
@@ -43,4 +64,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-export default connect(mapStateToProps, { getUsers })(CharactersList)
+export default connect(mapStateToProps, { getUsers, setCurrentPage })(
+	CharactersList
+)

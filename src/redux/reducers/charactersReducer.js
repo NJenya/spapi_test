@@ -2,6 +2,7 @@ import { starWarsAPI } from 'api/api'
 
 const SET_PEOPLE = 'SWAPI_TEST/CHARACTERS_LIST/SET_PEOPLE'
 const SET_TOTAL_COUNT = 'SWAPI_TEST/CHARACTERS_LIST/SET_TOTAL_COUNT'
+const SET_CURRENT_PAGE = 'SWAPI_TEST/CHARACTERS_LIST/SET_CURRENT_PAGE'
 const TOGGLE_IS_FETCHING = 'SWAPI_TEST/CHARACTERS_LIST/TOGGLE_IS_FETCHING'
 
 const initialState = {
@@ -19,6 +20,9 @@ const charactersListReducer = (state = initialState, action) => {
 		case SET_TOTAL_COUNT: {
 			return { ...state, totalCount: action.totalCount }
 		}
+		case SET_CURRENT_PAGE: {
+			return { ...state, currentPage: action.currentPage }
+		}
 		case TOGGLE_IS_FETCHING: {
 			return { ...state, isFetching: action.isFetching }
 		}
@@ -33,6 +37,11 @@ export const setPeoples = (people) => ({ type: SET_PEOPLE, people })
 export const setTotalCount = (totalCount) => ({
 	type: SET_TOTAL_COUNT,
 	totalCount,
+})
+
+export const setCurrentPage = (currentPage) => ({
+	type: SET_CURRENT_PAGE,
+	currentPage,
 })
 
 export const toggleIsFetching = (isFetching) => ({
